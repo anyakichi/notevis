@@ -6,7 +6,6 @@ import shutil
 import statistics
 import sys
 import threading
-import time
 
 import alsaseq
 import pyqtgraph as pg
@@ -200,7 +199,8 @@ class AseqThread(threading.Thread):
                             mu = statistics.mean(d)
                             pstd = statistics.pstdev(d, mu)
                             print(
-                                "interval (right): mean = {:.4f}, pstdev = {:.4f} ({:.2f}%)".format(
+                                "interval (right): mean = {:.4f}, "
+                                "pstdev = {:.4f} ({:.2f}%)".format(
                                     mu, pstd, pstd * 100 / mu
                                 )
                             )
@@ -210,7 +210,8 @@ class AseqThread(threading.Thread):
                             mu = statistics.mean(d)
                             pstd = statistics.pstdev(d, mu)
                             print(
-                                "interval (left): mean = {:.4f}, pstdev = {:.4f} ({:.2f}%)".format(
+                                "interval (left): mean = {:.4f},"
+                                " pstdev = {:.4f} ({:.2f}%)".format(
                                     mu, pstd, pstd * 100 / mu
                                 )
                             )
@@ -256,7 +257,7 @@ class AseqThread(threading.Thread):
                     data[i] = (data[i][0], data[i][1], data[i][2], duration, data[i][4])
                     data_updated = True
                 elif event[0] == 36:
-                    for k, v in notes_on.items():
+                    for _, v in notes_on.items():
                         duration = timestamp - data[v][0]
                         data[v] = (
                             data[v][0],
@@ -279,12 +280,14 @@ def update():
             if not data_cv.wait(1):
                 return None
         data_updated = False
-        l = list(zip(*data))
-    xmin = l[0][0]
-    xmax = l[0][-1] + l[3][-1]
+        lis = list(zip(*data))
+    xmin = lis[0][0]
+    xmax = lis[0][-1] + lis[3][-1]
     xdelta = xmax - xmin
     p.setXRange(xmin, xmin + ((math.ceil(xdelta) + 5 - 1) // 5) * 5)
-    bg.setOpts(x0=list(l[0]), height=list(l[2]), width=list(l[3]), brushes=list(l[4]))
+    bg.setOpts(
+        x0=list(lis[0]), height=list(lis[2]), width=list(lis[3]), brushes=list(lis[4])
+    )
 
 
 app = QtGui.QApplication([])
@@ -313,8 +316,6 @@ t.timeout.connect(update)
 t.start(50)
 
 if __name__ == "__main__":
-    import sys
-
     if (sys.flags.interactive != 1) or not hasattr(QtCore, "PYQT_VERSION"):
         app.exec_()
         running = False
