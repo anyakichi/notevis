@@ -1,0 +1,30 @@
+[pipenv]
+allow_prereleases = true
+
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = "*"
+flake8 = "*"
+flake8-black = "*"
+flake8-bugbear = "*"
+flake8-isort = "*"
+isort = "*"
+mypy = "*"
+pytest = "*"
+
+[packages]
+alsaseq = "*"
+pyqtgraph = "*"
+
+[requires]
+python_version = "3"
+
+[scripts]
+fmt = "bash -c 'isort -rc .; black .'"
+lint = "bash -c 'flake8 . && mypy .'"
+start = "python main.py"
+test = "pytest"
