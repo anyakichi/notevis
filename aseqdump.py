@@ -24,7 +24,7 @@ data_lock = threading.Lock()
 data_cv = threading.Condition(data_lock)
 
 
-class Sound:
+class Note(object):
     timestamp = None
     note = None
     velocity = None
@@ -95,9 +95,9 @@ class AseqThread(threading.Thread):
                     prev = None
                     for d in data:
                         if not prev:
-                            data2.append(Sound(d[0], d[1], d[2], d[3], 0))
+                            data2.append(Note(d[0], d[1], d[2], d[3], 0))
                         else:
-                            data2.append(Sound(d[0], d[1], d[2], d[3], d[0] - prev[0]))
+                            data2.append(Note(d[0], d[1], d[2], d[3], d[0] - prev[0]))
                         prev = d
 
                     prev = None
