@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
+import colorsys
+import math
 import shutil
 import statistics
-import time
-import math
-import threading
 import sys
-import colorsys
-import pyqtgraph as pg
-from pyqtgraph.Qt import QtGui, QtCore
+import threading
+import time
+
 import alsaseq
+import pyqtgraph as pg
+from pyqtgraph.Qt import QtCore, QtGui
 
 alsaseq.client("Recorder", 1, 0, True)
 alsaseq.connectfrom(0, 20, 0)
